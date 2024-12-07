@@ -1,0 +1,11 @@
+services:
+  mysql:
+    image: mysql:8
+    volumes:
+      - mysqldata:/var/lib/mysql
+    env_file:
+      - mysql.env
+  redis:
+    image: redis:7.4.1
+volumes:
+  mysqldata:
