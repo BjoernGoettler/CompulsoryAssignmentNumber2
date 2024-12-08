@@ -22,7 +22,7 @@ namespace Database.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("Database.Models.Author", b =>
+            modelBuilder.Entity("DatabaseOld.Models.Author", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +37,7 @@ namespace Database.Migrations
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("Database.Models.Book", b =>
+            modelBuilder.Entity("DatabaseOld.Models.Book", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace Database.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("Database.Models.Customer", b =>
+            modelBuilder.Entity("DatabaseOld.Models.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,7 +75,7 @@ namespace Database.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Database.Models.Order", b =>
+            modelBuilder.Entity("DatabaseOld.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -94,28 +94,28 @@ namespace Database.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Database.Models.Book", b =>
+            modelBuilder.Entity("DatabaseOld.Models.Book", b =>
                 {
-                    b.HasOne("Database.Models.Order", null)
+                    b.HasOne("DatabaseOld.Models.Order", null)
                         .WithMany("Books")
                         .HasForeignKey("OrderId");
                 });
 
-            modelBuilder.Entity("Database.Models.Order", b =>
+            modelBuilder.Entity("DatabaseOld.Models.Order", b =>
                 {
-                    b.HasOne("Database.Models.Customer", "Customer")
+                    b.HasOne("DatabaseOld.Models.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId");
 
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("Database.Models.Customer", b =>
+            modelBuilder.Entity("DatabaseOld.Models.Customer", b =>
                 {
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("Database.Models.Order", b =>
+            modelBuilder.Entity("DatabaseOld.Models.Order", b =>
                 {
                     b.Navigation("Books");
                 });

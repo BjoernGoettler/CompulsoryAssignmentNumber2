@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using DotNetEnv;
 namespace Database;
 
@@ -20,6 +18,6 @@ public static class DatabaseConnectionFactory
     
     public static string GetMySqlConnectionString()
     {
-        return $"Server={_host};Database={_database};Uid={_user};Pwd={_password};";
+        return $"Server={_host};DatabaseOld={_database};Uid={_user};Pwd={_password};";
     }
 }
