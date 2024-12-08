@@ -2,13 +2,21 @@ namespace Database.Models;
 
 public class Order
 {
-    public Guid Id { get;}
-    public List<Book> Books { get; set; } = new List<Book>();
-    public Customer Customer { get; set; }
+    public Guid Id { get; set; }
     public DateTime Date { get; set; }
-    public Order(Customer customer)
+    public List<Book> Books { get; set; }
+    public Customer? Customer { get; set; }
+
+    public Order()
+    {
+        Id = Guid.NewGuid();
+        Date = DateTime.Now;
+        Books = new List<Book>();
+    }
+    public Order(Customer customer, List<Book> books)
     {
         Customer = customer;
+        Books = new List<Book>(books);
         Date = DateTime.Now;
         Id = Guid.NewGuid();
     }
