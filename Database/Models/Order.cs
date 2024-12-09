@@ -4,7 +4,7 @@ public class Order
 {
     public Guid Id { get; set; }
     public DateTime Date { get; set; }
-    public List<Book> Books { get; set; }
+    public ICollection<Book> Books { get; set; }
     public Customer? Customer { get; set; }
 
     public Order()

@@ -1,3 +1,4 @@
+using Database.DbContexts;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,7 @@ public class BookstoreRepository
         _context = context;
     }
     
-    public async Task<Book> AddBook(Book book)
+    public async Task<Book> CreateBook(Book book)
     {
         _context.Books.Add(book);
         await _context.SaveChangesAsync();
@@ -21,7 +22,11 @@ public class BookstoreRepository
     public async Task<Book> GetBook(Guid id)
         => await _context.Books.FindAsync(id);
     
-    public async Task<Author> AddAuthor(string name)
+    public async Task<List<Book>> GetBooks()
+        => await _context.Books.ToListAsync();
+        //=> await _context.Books.Include(b => b.Author).ToListAsync();
+    
+    public async Task<Author> CreateAuthor(string name)
     {
         var author = new Author
         {
@@ -34,8 +39,11 @@ public class BookstoreRepository
     
     public async Task<Author> GetAuthor(Guid id)
         => await _context.Authors.FindAsync(id);
+    
+    public async Task<List<Author>> GetAuthors()
+        => await _context.Authors.ToListAsync();
 
-    public async Task<Customer> AddCustomer(string name)
+    public async Task<Customer> CreateCustomer(string name)
     {
         var customer = new Customer(name);
         _context.Customers.Add(customer);
@@ -45,15 +53,7 @@ public class BookstoreRepository
     
     public async Task<Customer> GetCustomer(Guid id)
         => await _context.Customers.FindAsync(id);
-
-    public async Task<Order> CreateOrder(Customer customer, List<Book> books)
-    {
-        var order = new Order(customer, books);
-        _context.Orders.Add(order);
-        await _context.SaveChangesAsync();
-        return order;
-    }
     
-    public async Task<Order> GetOrder(Guid id)
-        => await _context.Orders.FindAsync(id);
+    public async Task<List<Customer>> GetCustomers()
+        => await _context.Customers.ToListAsync();
 }

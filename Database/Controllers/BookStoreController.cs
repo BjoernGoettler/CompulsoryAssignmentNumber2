@@ -1,57 +1,70 @@
+using Database.DbContexts;
 using Database.Models;
 using Database.Repositories;
+using Database.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Database.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class BookStoreController: ControllerBase
 {
     private readonly BookstoreContext _context;
-    private readonly BookstoreRepository _repository;
+    private readonly BookstoreService _service;
 
     public BookStoreController(BookstoreContext context)
     {
         _context = context;
-        _repository = new BookstoreRepository(_context);
+        _service = new BookstoreService(_context);
     }
     
     [HttpPost]
-    public async Task<ActionResult<Book>> AddBook([FromBody] Book book)
+    [Route("book")]
+    public async Task<ActionResult<BookCreateResponse>> CreateBook([FromBody] BookCreateRequest book)
     {
-        var result = await _repository.AddBook(book);
+        var result = await _service.CreateBook(book);
         return Ok(result);
     }
     
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Book>> GetBook(Guid id)
-        => Ok( await _repository.GetBook(id));
+    [HttpGet]
+    [Route("book/{id:guid}")]
+    public async Task<ActionResult<BookGetResponse>> GetBook(Guid id)
+        => Ok( await _service.GetBook(id));
+    
+    [HttpGet]
+    [Route("books")]
+    public async Task<ActionResult<BooksGetResponse>> GetBooks()
+        => Ok( await _service.GetBooks());
     
     [HttpPost]
-    public async Task<ActionResult<Author>> AddAuthor([FromBody] string name)
-    {
-        var result = await _repository.AddAuthor(name);
-        return Ok(result);
-    }
+    [Route("author")]
+    public async Task<ActionResult<AuthorCreateResponse>> AddAuthor([FromBody] AuthorCreateRequest author)
+        => Ok(await _service.CreateAuthor(author));
     
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Author>> GetAuthor(Guid id)
-        => Ok( await _repository.GetAuthor(id));
+    [HttpGet]
+    [Route("author/{id:guid}")]
+    public async Task<ActionResult<AuthorGetResponse>> GetAuthor(Guid id)
+        => Ok( await _service.GetAuthor(id));
+    
+    [HttpGet]
+    [Route("authors")]
+    public async Task<ActionResult<List<Author>>> GetAuthors()
+        => Ok(await _service.GetAuthors());
     
     [HttpPost]
-    public async Task<ActionResult<Customer>> AddCustomer([FromBody] string name)
-        => Ok( await _repository.AddCustomer(name));
+    [Route("customer")]
+    public async Task<ActionResult<Customer>> AddCustomer([FromBody]CustomerCreateRequest customer)
+        => Ok( await _service.CreateCustomer(customer));
     
-    [HttpGet("{id}")]
+    [HttpGet]
+    [Route("customer/{id:guid}")]
     public async Task<ActionResult<Customer>> GetCustomer(Guid id)
-        => Ok( await _repository.GetCustomer(id));
+        => Ok( await _service.GetCustomer(id));
     
-    [HttpPost]
-    public async Task<ActionResult<Order>> CreateOrder([FromBody] Customer customer, [FromBody] List<Book> books)
-        => Ok( await _repository.CreateOrder(customer, books));
+    [HttpGet]
+    [Route("customers")]
+    public async Task<ActionResult<CustomersGetResponse>> GetCustomers()
+        => Ok( await _service.GetCustomers());
     
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Order>> GetOrder(Guid id)
-        => Ok( await _repository.GetOrder(id));
 }
