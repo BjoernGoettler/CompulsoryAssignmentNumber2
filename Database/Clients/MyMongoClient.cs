@@ -2,12 +2,12 @@ using MongoDB.Driver;
 
 namespace Database.Clients;
 
-public class MongoClient
+public class MyMongoClient
 {
     private readonly string _connectionString;
     private IMongoClient _client;
 
-    public MongoClient(string connectionString)
+    public MyMongoClient(string connectionString)
     {
         _connectionString = connectionString;
         Connect();
