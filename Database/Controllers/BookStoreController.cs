@@ -1,13 +1,12 @@
 using Database.DbContexts;
 using Database.Models;
-using Database.Repositories;
 using Database.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Database.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/")]
 public class BookStoreController: ControllerBase
 {
     private readonly BookstoreContext _context;
