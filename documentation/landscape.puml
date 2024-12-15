@@ -1,0 +1,47 @@
+@startuml landscape
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!$COLOR_A_5 = "#7f3b08"
+!$COLOR_A_4 = "#b35806"
+!$COLOR_A_3 = "#e08214"
+!$COLOR_A_2 = "#fdb863"
+!$COLOR_A_1 = "#fee0b6"
+!$COLOR_NEUTRAL = "#f7f7f7"
+!$COLOR_B_1 = "#d8daeb"
+!$COLOR_B_2 = "#b2abd2"
+!$COLOR_B_3 = "#8073ac"
+!$COLOR_B_4 = "#542788"
+!$COLOR_B_5 = "#2d004b"
+!$COLOR_REL_LINE = "#8073ac"
+!$COLOR_REL_TEXT = "#8073ac"
+
+
+!$ICONURL = "https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/v3.0.0/icons"
+!include $ICONURL/common.puml
+!include $ICONURL/devicons/mysql.puml
+!include $ICONURL/devicons2/mongodb.puml
+!include $ICONURL/devicons/dotnet.puml
+!include $ICONURL/devicons2/redis.puml
+
+title Solution Overview
+Person(user, "User")
+
+Container_Boundary(bookstore, "Bookstore"){
+    Container(bookstoreapi, "Bookstore API", "dotnet", "Provides an interface for the bookstore", $sprite=dotnet)
+    Container(bookstoreservice, "Bookstore Service", "dotnet", "Creates a unified interface for the user to work with the bookstore", $sprite=dotnet)
+    Container(bookrepository, "Books repositpry", "dotnet", "Abstracts database operations away", $sprite=dotnet)
+    ContainerDb(bookdatabase, "Books database", "MySQL", "Relational database for books", $sprite=mysql)
+    Container(orderrepository, "Orders repository", "dotnet", "Abstracts NoSQL away from the user", $sprite=dotnet)
+    ContainerDb(ordersdatabase, "Orders database", "MongoDB", "NoSQL database for orders", $sprite=mongodb)
+    ContainerDb(bookscache, "Books cache", "Redis", "Cache for handling availability", $sprite=redis)
+}
+
+BiRel_D(user, bookstoreapi, "Interacts", "HTTP")
+BiRel_D(bookstoreapi, bookstoreservice, "dotnet", "Communicates")
+BiRel_D(bookstoreservice, bookrepository, "dotnet", "C#")
+BiRel_D(bookrepository, bookdatabase,"Deals with books",  "EntityFramework")
+BiRel_D(bookstoreservice, orderrepository, "dotnet", "C#")
+BiRel_D(orderrepository, ordersdatabase, "Deals with orders", "Wire Protocol")
+Rel_R(bookstoreservice, bookscache, "Checks availability", "RESP")
+
+@enduml
