@@ -16,3 +16,5 @@ Finaly there is a cache implemented in Redis. It keeps tracks of books availabil
 Here is a diagram of the entire solution:
 
 ![Diagram](diagrams/landscape.png)
+
+A long the way of working with this project, I did a few [learnings](LEARNINGS.md), that I hope will make the next project done a bit faster
