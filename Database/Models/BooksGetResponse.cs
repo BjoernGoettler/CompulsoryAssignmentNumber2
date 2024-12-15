@@ -13,4 +13,7 @@ public class BooksGetResponse
             Books.Add(new BookGetResponse(book));
         }
     }
+    
+    public BooksGetResponse()
+    {}
 }

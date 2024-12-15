@@ -9,5 +9,15 @@ services:
       - "3306:3306"
   redis:
     image: redis:7.4.1
+  mongo:
+    image: mongodb/mongodb-community-server
+    ports:
+      - "8081:8081"
+      - "27017:27017"
+    env_file:
+      - mongo.env
+    volumes:
+      - mongodata:/da
 volumes:
   mysqldata:
+  mongodata:

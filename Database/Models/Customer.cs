@@ -11,4 +11,8 @@ public class Customer: IPerson
         Name = name;
         Id = Guid.NewGuid();
     }
+
+    public Customer()
+    {
+    }
 }
